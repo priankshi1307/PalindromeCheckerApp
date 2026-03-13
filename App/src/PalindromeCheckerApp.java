@@ -1,57 +1,93 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase13PaLindromeApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 13: Performance Comparison
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * This class reassures and compares the execution
+ * performance of palindrome validation algorithms.
  *
  * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * - Uses a palindrome strategy implementation
+ * - Captures execution start and end time
+ * - Calculates total execution duration
+ * - Displays benchmarking results
  *
- * No palindrome logic is implemented yet.
+ * This use case focuses purely on performance
+ * measurement and algorithm comparison.
  *
- * The goal is to establish a clear startup flow.
+ * The goal is to introduce benchmarking concepts.
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 13.0
  */
 
-import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
 
-        while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
+import java.util.Scanner;
+import java.util.Stack;
+import java.util.Deque;
+import java.util.LinkedList;
+
+interface PalindromeStrategy {
+    boolean checkPalindrome(String str);
+}
+
+class StackStrategy implements PalindromeStrategy {
+    public boolean checkPalindrome(String str) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : str.toCharArray()) {
+            stack.push(c);
+        }
+        String reversed = "";
+        while (!stack.isEmpty()) {
+            reversed += stack.pop();
+        }
+        return str.equals(reversed);
+    }
+}
+
+class DequeStrategy implements PalindromeStrategy {
+    public boolean checkPalindrome(String str) {
+        Deque<Character> deque = new LinkedList<>();
+        for (char c : str.toCharArray()) {
+            deque.add(c);
+        }
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
                 return false;
             }
-            left++;
-            right--;
         }
         return true;
     }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
-        String input = scanner.nextLine();
+}
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
-        } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
-        }
+public class UseCase13PalindromeCheckerApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a word to check performance: ");
+        String word = scanner.nextLine();
+
+        PalindromeStrategy stackStrategy = new StackStrategy();
+        PalindromeStrategy dequeStrategy = new DequeStrategy();
+
+        long startStack = System.nanoTime();
+        boolean stackResult = stackStrategy.checkPalindrome(word);
+        long endStack = System.nanoTime();
+        long durationStack = endStack - startStack;
+
+        long startDeque = System.nanoTime();
+        boolean dequeResult = dequeStrategy.checkPalindrome(word);
+        long endDeque = System.nanoTime();
+        long durationDeque = endDeque - startDeque;
+
+        System.out.println("Stack Strategy: " + (stackResult ? "Palindrome" : "Not Palindrome") + " | Time: " + durationStack + " ns");
+        System.out.println("Deque Strategy: " + (dequeResult ? "Palindrome" : "Not Palindrome") + " | Time: " + durationDeque + " ns");
 
         scanner.close();
     }
 }
+
 
