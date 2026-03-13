@@ -24,7 +24,7 @@
 
 import java.util.Scanner;
 
-public class UseCase3PalindromeCheckerApp {
+public class UseCase2PalindromeCheckerApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter a word to check if it's a palindrome: ");
