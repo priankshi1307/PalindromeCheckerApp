@@ -1,57 +1,93 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase12PaLindromeCheckerApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 12: Strategy Pattern for Palindrome Algorithms
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * This class demonstrates how different palindrome
+ * validation algorithms can be selected dynamically
+ * at runtime using the Strategy Design Pattern.
  *
  * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * - Defines a common PalindromeStrategy interface
+ * - Implements a concrete Stack based strategy
+ * - Injects the strategy at runtime
+ * - Executes the selected algorithm
  *
- * No palindrome logic is implemented yet.
+ * No performance comparison is done in this use case.
+ * The focus is purely on algorithm interchangeability.
  *
- * The goal is to establish a clear startup flow.
+ * The goal is to teach extensible algorithm design.
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 12.0
  */
 
 import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
+import java.util.Stack;
+import java.util.Deque;
+import java.util.LinkedList;
 
-        while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
+interface PalindromeStrategy {
+    boolean checkPalindrome(String str);
+}
+
+class StackStrategy implements PalindromeStrategy {
+    public boolean checkPalindrome(String str) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : str.toCharArray()) {
+            stack.push(c);
+        }
+        String reversed = "";
+        while (!stack.isEmpty()) {
+            reversed += stack.pop();
+        }
+        return str.equals(reversed);
+    }
+}
+
+class DequeStrategy implements PalindromeStrategy {
+    public boolean checkPalindrome(String str) {
+        Deque<Character> deque = new LinkedList<>();
+        for (char c : str.toCharArray()) {
+            deque.add(c);
+        }
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
                 return false;
             }
-            left++;
-            right--;
         }
         return true;
     }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
-        String input = scanner.nextLine();
+}
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
+public class UseCase12PalindromeCheckerApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a word to check if it's a palindrome: ");
+        String word = scanner.nextLine();
+
+        System.out.println("Choose strategy: 1 for Stack, 2 for Deque");
+        int choice = scanner.nextInt();
+
+        PalindromeStrategy strategy;
+        if (choice == 1) {
+            strategy = new StackStrategy();
         } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
+            strategy = new DequeStrategy();
+        }
+
+        if (strategy.checkPalindrome(word)) {
+            System.out.println(word + " is a palindrome.");
+        } else {
+            System.out.println(word + " is not a palindrome.");
         }
 
         scanner.close();
     }
 }
+
 
