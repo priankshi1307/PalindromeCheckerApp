@@ -1,36 +1,36 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase11PaLindromeApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 11: Object-Oriented Palindrome Service 
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * This class demonstrates palindrome validation using
+ * object-oriented design.
  *
- * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * The palindrome logic is encapsulated inside a 
+ * PalindromeService class.
  *
- * No palindrome logic is implemented yet.
- *
- * The goal is to establish a clear startup flow.
+ * This improves:
+ * - Resuability
+ * - Readability
+ * - Separation of concerns
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 11.0
  */
 
+
 import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
+
+class PalindromeService {
+    public boolean checkPalindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
 
         while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
+            if (str.charAt(left) != str.charAt(right)) {
                 return false;
             }
             left++;
@@ -38,20 +38,24 @@ public class PalindromeCheckerApp {
         }
         return true;
     }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
-        String input = scanner.nextLine();
+}
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
+public class UseCase11PalindromeCheckerApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        PalindromeService service = new PalindromeService();
+
+        System.out.print("Enter a word to check if it's a palindrome: ");
+        String word = scanner.nextLine();
+
+        if (service.checkPalindrome(word)) {
+            System.out.println(word + " is a palindrome.");
         } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
+            System.out.println(word + " is not a palindrome.");
         }
 
         scanner.close();
     }
 }
+
 
