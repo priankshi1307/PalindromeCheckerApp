@@ -1,57 +1,55 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase5PaLindromeApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 5: Stack Based Palindrome Checker 
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * This class validates a palindrome using a Stack
+ * data structure which follows the LIFO principle.
  *
  * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * - Pushes characters into a stack
+ * - Pops them in reverse order 
+ * - Compares with the original sequence
+ * - Displays the result
  *
- * No palindrome logic is implemented yet.
- *
- * The goal is to establish a clear startup flow.
+ * This maps stack behavior to reversal logic.
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 5.0
  */
 
 import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
-
-        while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
-    }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
+import java.util.Stack;
+public class UseCase5PalindromeCheckerApp {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
-        String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
+        System.out.print("Enter a word to check if it's a palindrome: ");
+        String word = scanner.nextLine();
+
+        Stack<Character> stack = new Stack<>();
+
+        // Push characters into stack
+        for (int i = 0; i < word.length(); i++) {
+            stack.push(word.charAt(i));
+        }
+
+        // Pop characters to build reversed string
+        String reversed = "";
+        while (!stack.isEmpty()) {
+            reversed = reversed + stack.pop();
+        }
+
+        // Compare original and reversed
+        if (word.equals(reversed)) {
+            System.out.println(word + " is a palindrome.");
         } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
+            System.out.println(word + " is not a palindrome.");
         }
 
         scanner.close();
     }
 }
-
