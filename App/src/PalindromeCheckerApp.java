@@ -1,57 +1,68 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase7PaLindromeApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 7: Dequeue Based Optimized Palindrome Checker
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * This class validates a palindrome using a Dequeue
+ * (Double Ended Queue).
  *
- * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * Characters are inserted into dequeue and then
+ * compared by removing elements from both ends:
  *
- * No palindrome logic is implemented yet.
+ * - removeFirst()
+ * - removeLast()
  *
- * The goal is to establish a clear startup flow.
+ * This avoids reversing the string and provides an 
+ * efficient front-to-back comparison approach.
+ *
+ * This use case demonstrates optimal bidirectional 
+ * traversal using Dequeue.
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 7.0
  */
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
-
-        while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
-    }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
+public class UseCase7PalindromeCheckerApp {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
-        String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
+        System.out.print("Enter a word to check if it's a palindrome: ");
+        String word = scanner.nextLine();
+
+        Deque<Character> deque = new LinkedList<>();
+
+       
+        for (int i = 0; i < word.length(); i++) {
+            deque.add(word.charAt(i));
+        }
+
+        boolean isPalindrome = true;
+
+        
+        while (deque.size() > 1) {
+            char front = deque.removeFirst();
+            char rear = deque.removeLast();
+
+            if (front != rear) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        if (isPalindrome) {
+            System.out.println(word + " is a palindrome.");
         } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
+            System.out.println(word + " is not a palindrome.");
         }
 
         scanner.close();
     }
 }
+
 
