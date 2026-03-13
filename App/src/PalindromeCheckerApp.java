@@ -1,54 +1,54 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase9PaLindromeApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 9: Recursive Palindrome Checker
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * This class validates a palindromes using recursion.
+ * 
+ * Characters are compared from the outer positions
+ * moving inward using recursive calls.
  *
- * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * The recursion stops when:
+ * - All characters are matched, or 
+ * - A mismatch is found.
  *
- * No palindrome logic is implemented yet.
- *
- * The goal is to establish a clear startup flow.
+ * This use case demonstrates divide-and-conquer
+ * logic using method recursion.
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 9.0
  */
 
 import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
+public class UseCase9PalindromeCheckerApp {
 
-        while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
+    
+    public static boolean isPalindrome(String str, int left, int right) {
+        
+        if (left >= right) {
+            return true;
         }
-        return true;
+        
+        if (str.charAt(left) != str.charAt(right)) {
+            return false;
+        }
+       
+        return isPalindrome(str, left + 1, right - 1);
     }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
-        String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a word to check if it's a palindrome: ");
+        String word = scanner.nextLine();
+
+        if (isPalindrome(word, 0, word.length() - 1)) {
+            System.out.println(word + " is a palindrome.");
         } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
+            System.out.println(word + " is not a palindrome.");
         }
 
         scanner.close();
