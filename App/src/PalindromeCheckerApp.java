@@ -1,36 +1,42 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase10PaLindromeApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 10: Normalized Palindrome Validation
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * Thhis class validates a palindrome after preprocessing
+ * the input string
  *
- * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * Normalization includes:
+ * - Removing spaces and symbols
+ * - Converting to lowercase
  *
- * No palindrome logic is implemented yet.
- *
- * The goal is to establish a clear startup flow.
+ * This ensures the palindrome check is logical rather
+ * than charcater-format dependent.
+ * 
+ * Example:
+ * " A man a plan a canal Panama "
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 10.0
  */
 
 import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
+
+public class UseCase10PalindromeCheckerApp {
+
+    public static String normalize(String str) {
+        return str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+    }
+
+    public static boolean isPalindrome(String str) {
+        int left = 0;
+        int right = str.length() - 1;
 
         while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
+            if (str.charAt(left) != str.charAt(right)) {
                 return false;
             }
             left++;
@@ -38,20 +44,23 @@ public class PalindromeCheckerApp {
         }
         return true;
     }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
+
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
+
+        System.out.print("Enter a phrase to check if it's a palindrome: ");
         String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
+        String normalized = normalize(input);
+
+        if (isPalindrome(normalized)) {
+            System.out.println("\"" + input + "\" is a palindrome (ignoring case and spaces).");
         } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
+            System.out.println("\"" + input + "\" is not a palindrome.");
         }
 
         scanner.close();
     }
 }
+
 
