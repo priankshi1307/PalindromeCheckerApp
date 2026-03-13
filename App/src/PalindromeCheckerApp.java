@@ -1,57 +1,74 @@
 /**
  * ==============================================================
- * MAIN CLASS - UseCase1PaLindromeApp
+ * MAIN CLASS - UseCase6PaLindromeApp
  * ==============================================================
  *
- * Use Case 1: Application Entry & Welcome Message
+ * Use Case 6: Queue + Stack Fairness Check
  *
  * Description:
- * This class represents the entry point of the
- * Palindrome Checker Management System.
+ * This class demonstrates palindrome validation using
+ * two different data structures:
  *
- * At this stage, the application:
- * - Starts execution from the main() method
- * - Displays a welcome message
- * - Shows application version
+ * - Queue (FIFO - First In First Out)
+ * - Stack (LIFO - Last In Last Out)
  *
- * No palindrome logic is implemented yet.
+ * Characters are inserted ino both structures and then
+ * compared by removing from the front of the queue and
+ * the top of the stack.
  *
- * The goal is to establish a clear startup flow.
+ * If all characters match, the input string is confirmed
+ *as a palindrome.
+ *
+ * This use case helps understand how FIFO and LIFO 
+ * behaviors can be combined for symmetric comparison.
  *
  * @auhor Priankshi
- * @version 2.0
+ * @version 6.0
  */
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static boolean isPalindrome(String text) {
-        // Preprocess: remove spaces, convert to lowercase
-        text = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-        int left = 0, right = text.length() - 1;
-
-        while (left < right) {
-            if (text.charAt(left) != text.charAt(right)) {
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
-    }
-    public static void main(String[] args ){
-        System.out.println("Welcome to Palindrome Checker App Management System");
+import java.util.Stack;
+public class UseCase6PalindromeCheckerApp {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("=== Palindrome Checker App ===");
-        System.out.print("Enter a word, phrase, or number: ");
-        String input = scanner.nextLine();
 
-        if (isPalindrome(input)) {
-            System.out.println("Yes '" + input + "' is a palindrome!");
+        System.out.print("Enter a word to check if it's a palindrome: ");
+        String word = scanner.nextLine();
+
+        Queue<Character> queue = new LinkedList<>();
+        Stack<Character> stack = new Stack<>();
+
+        // Enqueue and push characters
+        for (int i = 0; i < word.length(); i++) {
+            char ch = word.charAt(i);
+            queue.add(ch);   // enqueue
+            stack.push(ch);  // push
+        }
+
+        boolean isPalindrome = true;
+
+        // Compare dequeue vs pop
+        while (!queue.isEmpty() && !stack.isEmpty()) {
+            char fromQueue = queue.remove(); // dequeue
+            char fromStack = stack.pop();    // pop
+
+            if (fromQueue != fromStack) {
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        if (isPalindrome) {
+            System.out.println(word + " is a palindrome.");
         } else {
-            System.out.println("No '" + input + "' is NOT a palindrome.");
+            System.out.println(word + " is not a palindrome.");
         }
 
         scanner.close();
     }
+}
+
 }
 
