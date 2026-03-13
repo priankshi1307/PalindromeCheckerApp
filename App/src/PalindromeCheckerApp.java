@@ -21,4 +21,11 @@
  * @auhor Priankshi
  * @version 1.0
  */
+public class UseCase1PalindromeCheckerApp {
+    public static void main(String[] args) {
+        System.out.println("Welcome to the Palindrome Checker App!");
+        System.out.println("Application Name: PalindromeChecker");
+        System.out.println("Version: 1.0");
+    }
+}
 
